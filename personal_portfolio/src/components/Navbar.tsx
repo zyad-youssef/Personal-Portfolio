@@ -1,18 +1,15 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
@@ -39,13 +36,40 @@ export default function ResponsiveDrawer(props: Props) {
       <Toolbar />
       <Divider />
       <List>
-        {/*['About Me', 'Projects', 'Resume', 'Work Experience']*/}
 
-          <ListItem key={"About ME"} disablePadding component="a" href="/about">
+          {/* // About */}
+          <ListItem key={"About ME"} disablePadding component="a" href="/About">
             <ListItemButton>
               <ListItemIcon>
               </ListItemIcon>
               <ListItemText primary={"About me "} />
+            </ListItemButton>
+          </ListItem>
+
+          {/* // Projects */}
+          <ListItem key={"Projects"} disablePadding component="a" href="/Projects">
+            <ListItemButton>
+              <ListItemIcon>
+              </ListItemIcon>
+              <ListItemText primary={"Projects"} />
+            </ListItemButton>
+          </ListItem>
+          
+          {/* // Resume */}
+          <ListItem key={"Resume"} disablePadding component="a" href="/Resume">
+            <ListItemButton>
+              <ListItemIcon>
+              </ListItemIcon>
+              <ListItemText primary={"Resume"} />
+            </ListItemButton>
+          </ListItem>
+
+          {/* // Experience */}
+          <ListItem key={"Experience"} disablePadding component="a" href="/Experience">
+            <ListItemButton>
+              <ListItemIcon>
+              </ListItemIcon>
+              <ListItemText primary={"Experience"} />
             </ListItemButton>
           </ListItem>
       </List>
