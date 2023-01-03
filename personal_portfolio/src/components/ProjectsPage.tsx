@@ -1,11 +1,9 @@
-import React from "react";
-import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
 function Menu() {
   return (
-    <div className="App">
-    This is the projects page 
-   </div>
-
+    <Box sx={{position: 'absolute', left: '250px', fontSize: 'h12.fontSize'}}>
+    I am Zyad Youssef, a recent Computer Engineering graduate from the University Of Utah. Although I studied Hardware and Software, I am much more interested in Software than I am 	 in Hardware. I am Currently employed with Goldman Sachs as a New Software Engineering Analyst.   
+    </Box>
   );
 }
 
