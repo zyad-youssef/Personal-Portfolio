@@ -29,7 +29,6 @@ export default function ResponsiveDrawer(props: Props) {
   };
 
 
-  
   const drawer = (
     <div style={{
           backgroundImage: `url(${background})`,
@@ -42,38 +41,38 @@ export default function ResponsiveDrawer(props: Props) {
       <List>
 
           {/* // About */}
-          <ListItem key={"About ME"} disablePadding component="a" href="/About" style={{ color: '#FFFFFF' }}>
+          <ListItem key={"About ME"} disablePadding component="a" href="/About">
             <ListItemButton>
               <ListItemIcon>
               </ListItemIcon>
-              <ListItemText primary={"About"} />
+              <ListItemText primary={"About"} primaryTypographyProps={{fontFamily:"Courier New"}}/>
             </ListItemButton>
           </ListItem>
 
           {/* // Projects */}
-          <ListItem key={"Projects"} disablePadding component="a" href="/Projects" style={{ color: '#FFFFFF' }}>
+          <ListItem key={"Projects"} disablePadding component="a" href="/Projects">
             <ListItemButton>
               <ListItemIcon>
               </ListItemIcon>
-              <ListItemText primary={"Projects"} />
+              <ListItemText primary={"Projects"} primaryTypographyProps={{fontFamily:"Courier New"}} />
             </ListItemButton>
           </ListItem>
           
           {/* // Resume */}
-          <ListItem key={"Resume"} disablePadding component="a" href="/Resume" style={{ color: '#FFFFFF' }}>
+	  <ListItem key={"Resume"} disablePadding component="a" href="/Resume"> 
             <ListItemButton>
               <ListItemIcon>
               </ListItemIcon>
-              <ListItemText primary={"Resume"} />
+	      <ListItemText primary={"Resume"} primaryTypographyProps={{fontFamily:"Courier New"}} />
             </ListItemButton>
           </ListItem>
 
           {/* // Experience */}
-          <ListItem key={"Experience"} disablePadding component="a" href="/Experience" style={{ color: '#FFFFFF' }}>
+          <ListItem key={"Experience"} disablePadding component="a" href="/Experience">
             <ListItemButton>
               <ListItemIcon>
               </ListItemIcon>
-              <ListItemText primary={"Experience"} />
+              <ListItemText primary={"Experience"} primaryTypographyProps={{fontFamily:"Courier New"}} />
             </ListItemButton>
           </ListItem>
       </List>
