@@ -1,6 +1,4 @@
-import React from "react";
-import Typography from '@mui/material/Typography';
-function Menu() {
+function Menu(){
   return (
     <div className="App">
     <div> Software Engineer</div>

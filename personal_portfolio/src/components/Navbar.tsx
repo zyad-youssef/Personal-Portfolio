@@ -13,13 +13,10 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-
-const drawerWidth = 240;
+import background from '../background.png'
+const drawerWidth = 195;
 
 interface Props {
-  /**
-   * Injected by the documentation to work in an iframe.
-   */
   window?: () => Window;
 }
 
@@ -31,23 +28,30 @@ export default function ResponsiveDrawer(props: Props) {
     setMobileOpen(!mobileOpen);
   };
 
+
+  
   const drawer = (
-    <div>
+    <div style={{
+          backgroundImage: `url(${background})`,
+          backgroundSize: "cover",
+          height: "100vh",
+          color: "#FFFFFF"
+        }}>
       <Toolbar />
       <Divider />
       <List>
 
           {/* // About */}
-          <ListItem key={"About ME"} disablePadding component="a" href="/About">
+          <ListItem key={"About ME"} disablePadding component="a" href="/About" style={{ color: '#FFFFFF' }}>
             <ListItemButton>
               <ListItemIcon>
               </ListItemIcon>
-              <ListItemText primary={"About me "} />
+              <ListItemText primary={"About"} />
             </ListItemButton>
           </ListItem>
 
           {/* // Projects */}
-          <ListItem key={"Projects"} disablePadding component="a" href="/Projects">
+          <ListItem key={"Projects"} disablePadding component="a" href="/Projects" style={{ color: '#FFFFFF' }}>
             <ListItemButton>
               <ListItemIcon>
               </ListItemIcon>
@@ -56,7 +60,7 @@ export default function ResponsiveDrawer(props: Props) {
           </ListItem>
           
           {/* // Resume */}
-          <ListItem key={"Resume"} disablePadding component="a" href="/Resume">
+          <ListItem key={"Resume"} disablePadding component="a" href="/Resume" style={{ color: '#FFFFFF' }}>
             <ListItemButton>
               <ListItemIcon>
               </ListItemIcon>
@@ -65,7 +69,7 @@ export default function ResponsiveDrawer(props: Props) {
           </ListItem>
 
           {/* // Experience */}
-          <ListItem key={"Experience"} disablePadding component="a" href="/Experience">
+          <ListItem key={"Experience"} disablePadding component="a" href="/Experience" style={{ color: '#FFFFFF' }}>
             <ListItemButton>
               <ListItemIcon>
               </ListItemIcon>
@@ -85,6 +89,8 @@ export default function ResponsiveDrawer(props: Props) {
       <AppBar
         position="fixed"
         sx={{
+	  bgcolor: "#37393F",
+          backgroundImage: `url(${background})`,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
         }}
