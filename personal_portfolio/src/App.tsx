@@ -1,8 +1,8 @@
 import './App.css';
 import Navbar from './components/Navbar'
-import About from './components/MenuPage';
-import ProjectsPage from './components/ProjectsPage'
-import background from "./background.png"
+import AboutPage from './components/AboutPage'
+import ProjectsPage from './components/ProjectsPage';
+import background from "./background.jpg"
 
 import {
   BrowserRouter as Router,
@@ -21,11 +21,11 @@ function App() {
       <Navbar></Navbar>
       <Router>
         <Routes>  
-	<Route path="/" element={<ProjectsPage/>} />
-	<Route path="/About" element={<ProjectsPage/>} />
+	<Route path="/" element={<AboutPage/>} />
+	<Route path="/About" element={<AboutPage/>} />
         <Route path="/Projects" element={<ProjectsPage/>} />
-	<Route path="/Resume" element={<ProjectsPage/>} />
-	<Route path="/Experience" element={<ProjectsPage/>} />
+	<Route path="/Resume" element={<AboutPage/>} />
+	<Route path="/Experience" element={<AboutPage/>} />
         </Routes>
       </Router>
     </div>

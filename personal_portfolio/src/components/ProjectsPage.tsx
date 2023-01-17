@@ -1,8 +1,15 @@
 import Box from '@mui/material/Box';
+import { Typography } from '@mui/material';
+
 function Menu() {
   return (
-    <Box style={{fontFamily: 'Courier New'}} sx={{position: 'absolute', left: '250px', fontSize: 'h12.fontSize'}}>
-    I am Zyad Youssef, a recent Computer Engineering graduate from the University Of Utah. Although I studied Hardware and Software, I am much more interested in Software than I am 	 in Hardware. I am currently employed with Goldman Sachs as a New Software Engineering Analyst.   
+    <Box>
+	<Typography variant="h5" style={{fontFamily: 'Courier New'}} sx={{position: 'absolute', left: '730px'}}>
+	  U-DASH
+	  <div> this is a test</div>
+	  <div> </div>
+	  Crypto Tracker
+	</Typography>
     </Box>
   );
 }

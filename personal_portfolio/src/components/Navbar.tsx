@@ -13,7 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import background from '../background.png'
+import background from '../background.jpg'
 const drawerWidth = 195;
 
 interface Props {
@@ -45,7 +45,7 @@ export default function ResponsiveDrawer(props: Props) {
             <ListItemButton>
               <ListItemIcon>
               </ListItemIcon>
-              <ListItemText primary={"About"} primaryTypographyProps={{fontFamily:"Courier New"}}/>
+              <ListItemText primary={"About"} primaryTypographyProps={{fontFamily:"Courier New", color: "#FFFFFF"}}/>
             </ListItemButton>
           </ListItem>
 
@@ -54,7 +54,7 @@ export default function ResponsiveDrawer(props: Props) {
             <ListItemButton>
               <ListItemIcon>
               </ListItemIcon>
-              <ListItemText primary={"Projects"} primaryTypographyProps={{fontFamily:"Courier New"}} />
+              <ListItemText primary={"Projects"} primaryTypographyProps={{fontFamily:"Courier New", color: "#FFFFFF" }} />
             </ListItemButton>
           </ListItem>
           
@@ -63,7 +63,7 @@ export default function ResponsiveDrawer(props: Props) {
             <ListItemButton>
               <ListItemIcon>
               </ListItemIcon>
-	      <ListItemText primary={"Resume"} primaryTypographyProps={{fontFamily:"Courier New"}} />
+	      <ListItemText primary={"Resume"} primaryTypographyProps={{fontFamily:"Courier New", color: "#FFFFFF" }} />
             </ListItemButton>
           </ListItem>
 
@@ -72,7 +72,7 @@ export default function ResponsiveDrawer(props: Props) {
             <ListItemButton>
               <ListItemIcon>
               </ListItemIcon>
-              <ListItemText primary={"Experience"} primaryTypographyProps={{fontFamily:"Courier New"}} />
+              <ListItemText primary={"Experience"} primaryTypographyProps={{fontFamily:"Courier New", color: "#FFFFFF" }} />
             </ListItemButton>
           </ListItem>
       </List>
