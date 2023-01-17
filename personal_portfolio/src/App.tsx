@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import AboutPage from './components/AboutPage'
 import ProjectsPage from './components/ProjectsPage';
 import background from "./background.jpg"
+import personalPic from "./personalPic.jpg"
 
 import {
   BrowserRouter as Router,
