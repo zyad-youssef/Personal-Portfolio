@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "material-ui-image": "^3.3.2",
+    "mui-image": "^1.0.7"
+  }
+}
