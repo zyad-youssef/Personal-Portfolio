@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent';
 import Chip from '@mui/material/Chip';
 import SchoolIcon from '@mui/icons-material/School';
 import WorkIcon from '@mui/icons-material/Work';
+import { useInView } from '../hooks/useInView';
 
 const experiences = [
   {
@@ -13,19 +14,19 @@ const experiences = [
     period: 'May 2025 – Present',
     location: 'Salt Lake City, UT',
     description:
-      'Develop and maintain Spring-based Java applications supporting Fees and Commissions workflows within Global Banking & Markets. Implement enhancements and fixes across backend services, ensuring correctness, stability, and adherence to internal controls. Participate in production support, debugging, and issue resolution.',
-    tags: ['Java', 'Spring Boot', 'Distributed Systems', 'Backend'],
+      'Develop and maintain Java/Spring Boot microservices supporting Fees & Commissions workflows across Global Banking & Markets. Design and deliver full-stack features across Angular/TypeScript frontends and Java backends, collaborating directly with traders, operations, and sales teams. Manage CI/CD pipelines, Kubernetes deployments, and Gradle build workflows. Use Terraform and HashiCorp tooling for infrastructure management, and Splunk for production observability and incident resolution.',
+    tags: ['Java', 'Spring Boot', 'Angular', 'TypeScript', 'Kubernetes', 'Terraform', 'CI/CD', 'Splunk'],
     current: true,
     type: 'work',
   },
   {
     company: 'Goldman Sachs',
-    role: 'Wealth Management — Software Engineer',
-    period: 'Feb 2022 – May 2025',
+    role: 'Private Wealth Management — Software Engineer',
+    period: 'January 2023 – May 2025',
     location: 'Salt Lake City, UT',
     description:
-      'Developed and maintained distributed Java Spring applications supporting a core platform responsible for delivering communications and content to PWM clients. Worked on services coordinated through an orchestrator service, enabling reliable, ordered delivery across distributed systems. Improved platform reliability through automation and workflow optimizations using Python.',
-    tags: ['Java', 'Spring', 'Python', 'Distributed Systems'],
+      'Built and maintained distributed Java/Spring microservices powering a core content delivery and communications platform for Private Wealth Management clients — processing over one million requests per day. Designed Kafka-based event-driven workflows for reliable, ordered delivery across orchestrator and downstream services. Designed MongoDB schemas for client delivery configurations, developed Python/Pandas scripts for production data validation, and led migration from legacy GSSO authentication to OIDC via Ping Federate. Used Splunk for end-to-end observability and incident triage.',
+    tags: ['Java', 'Spring', 'Kafka', 'MongoDB', 'Python', 'Kubernetes', 'OIDC', 'Splunk'],
     current: false,
     type: 'work',
   },
@@ -35,8 +36,8 @@ const experiences = [
     period: 'Jun 2022 – Aug 2022',
     location: 'Salt Lake City, UT',
     description:
-      'Developed a self-service React application to support internal documentation workflows. Built an automated project management service using Python and Flask API, saving the team 30–50 hours per month. Implemented software versioning and deployment workflows aligned with internal SDLC pipelines.',
-    tags: ['React', 'Python', 'Flask', 'SDLC'],
+      'Built an automated project management service using Python and Flask RESTful APIs, saving the team 30–50 engineering hours per month. Developed a self-service React application to streamline internal documentation workflows. Implemented software versioning and deployment workflows aligned with internal CI/CD and SDLC pipelines.',
+    tags: ['React', 'Python', 'Flask', 'CI/CD'],
     current: false,
     type: 'work',
   },
@@ -64,140 +65,176 @@ const experiences = [
   },
 ];
 
-function ExperiencePage() {
-  return (
-    <Box className="page-enter" sx={{ maxWidth: 720, mx: 'auto', py: 8, px: 3 }}>
-      <Typography variant="h5" sx={{ color: '#e6edf3', fontWeight: 700, mb: 5 }}>
-        Experience
-      </Typography>
+function ExperienceCard({ exp, index }: { exp: typeof experiences[0]; index: number }) {
+  const { ref, inView } = useInView();
 
-      <Box sx={{ position: 'relative' }}>
-        {/* Timeline vertical line */}
+  return (
+    <Box
+      ref={ref}
+      sx={{
+        display: 'flex',
+        gap: 3,
+        opacity: inView ? 1 : 0,
+        transform: inView ? 'translateY(0)' : 'translateY(28px)',
+        transition: `opacity 0.55s ease ${index * 0.1}s, transform 0.55s ease ${index * 0.1}s`,
+      }}
+    >
+      {/* Timeline dot */}
+      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', pt: 2.5 }}>
         <Box
           sx={{
-            position: 'absolute',
-            left: 7,
-            top: 10,
-            bottom: 10,
-            width: 2,
-            bgcolor: '#21262d',
+            width: 10,
+            height: 10,
+            borderRadius: '50%',
+            bgcolor: exp.current ? '#f0f0f0' : exp.type === 'education' ? '#555' : '#2a2a2a',
+            border: `2px solid ${exp.current ? '#f0f0f0' : '#242424'}`,
+            boxShadow: exp.current ? '0 0 0 4px rgba(240,240,240,0.08)' : 'none',
+            flexShrink: 0,
+            zIndex: 1,
           }}
         />
+        <Box sx={{ width: '1px', flex: 1, bgcolor: '#1e1e1e', mt: 1 }} />
+      </Box>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-          {experiences.map((exp, i) => (
-            <Box key={i} sx={{ display: 'flex', gap: 3 }}>
-              {/* Timeline dot */}
-              <Box
+      <Card
+        sx={{
+          flex: 1,
+          bgcolor: '#0a0a0a',
+          border: `1px solid ${exp.current ? '#333' : '#1c1c1c'}`,
+          borderRadius: 2,
+          boxShadow: 'none',
+          mb: 2.5,
+          transition: 'border-color 0.2s ease',
+          '&:hover': {
+            borderColor: exp.current ? '#484848' : '#2e2e2e',
+          },
+        }}
+      >
+        <CardContent sx={{ p: 3 }}>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              alignItems: 'flex-start',
+              mb: 0.5,
+              gap: 1,
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+              {exp.type === 'education' ? (
+                <SchoolIcon sx={{ fontSize: 15, color: '#555' }} />
+              ) : (
+                <WorkIcon sx={{ fontSize: 15, color: exp.current ? '#888' : '#3a3a3a' }} />
+              )}
+              <Typography variant="h6" sx={{ color: '#e8e8e8', fontWeight: 600, fontSize: '0.95rem' }}>
+                {exp.role}
+              </Typography>
+              {exp.current && (
+                <Chip
+                  label="Current"
+                  size="small"
+                  sx={{
+                    height: 18,
+                    fontSize: '0.62rem',
+                    fontWeight: 600,
+                    bgcolor: 'rgba(255,255,255,0.07)',
+                    color: '#aaa',
+                    border: '1px solid #333',
+                    '& .MuiChip-label': { px: 0.75 },
+                  }}
+                />
+              )}
+            </Box>
+            <Typography variant="caption" sx={{ color: '#444', mt: 0.3, whiteSpace: 'nowrap', fontSize: '0.75rem' }}>
+              {exp.period}
+            </Typography>
+          </Box>
+
+          <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap', alignItems: 'center' }}>
+            <Typography variant="subtitle2" sx={{ color: '#666', fontWeight: 500, fontSize: '0.85rem' }}>
+              {exp.company}
+            </Typography>
+            <Typography variant="subtitle2" sx={{ color: '#2a2a2a' }}>·</Typography>
+            <Typography variant="subtitle2" sx={{ color: '#484848', fontSize: '0.82rem' }}>
+              {exp.location}
+            </Typography>
+          </Box>
+
+          <Typography variant="body2" sx={{ color: '#666', lineHeight: 1.75, mb: 2.5, fontSize: '0.875rem' }}>
+            {exp.description}
+          </Typography>
+
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
+            {exp.tags.map((tag) => (
+              <Chip
+                key={tag}
+                label={tag}
+                size="small"
                 sx={{
-                  width: 16,
-                  height: 16,
-                  borderRadius: '50%',
-                  bgcolor: exp.current ? '#58a6ff' : exp.type === 'education' ? '#3fb950' : '#30363d',
-                  border: `2px solid ${exp.current ? '#58a6ff' : '#0d1117'}`,
-                  boxShadow: exp.current ? '0 0 0 3px rgba(88,166,255,0.2)' : 'none',
-                  flexShrink: 0,
-                  mt: 2.5,
-                  zIndex: 1,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
+                  bgcolor: '#0e0e0e',
+                  color: '#555',
+                  border: '1px solid #1e1e1e',
+                  fontSize: '0.7rem',
                 }}
               />
+            ))}
+          </Box>
+        </CardContent>
+      </Card>
+    </Box>
+  );
+}
 
-              <Card
-                sx={{
-                  flex: 1,
-                  bgcolor: '#161b22',
-                  border: `1px solid ${exp.current ? 'rgba(88,166,255,0.3)' : '#30363d'}`,
-                  borderRadius: 2,
-                  boxShadow: exp.current ? '0 0 0 1px rgba(88,166,255,0.05)' : 'none',
-                  '&:hover': { borderColor: exp.current ? 'rgba(88,166,255,0.5)' : '#484f58', transition: 'border-color 0.2s' },
-                }}
-              >
-                <CardContent>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      flexWrap: 'wrap',
-                      alignItems: 'flex-start',
-                      mb: 0.5,
-                      gap: 1,
-                    }}
-                  >
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      {exp.type === 'education'
-                        ? <SchoolIcon sx={{ fontSize: 16, color: '#3fb950' }} />
-                        : <WorkIcon sx={{ fontSize: 16, color: exp.current ? '#58a6ff' : '#484f58' }} />
-                      }
-                      <Typography
-                        variant="h6"
-                        sx={{ color: '#e6edf3', fontWeight: 600, fontSize: '1rem' }}
-                      >
-                        {exp.role}
-                      </Typography>
-                      {exp.current && (
-                        <Chip
-                          label="Current"
-                          size="small"
-                          sx={{
-                            height: 18,
-                            fontSize: '0.65rem',
-                            fontWeight: 600,
-                            bgcolor: 'rgba(88,166,255,0.15)',
-                            color: '#58a6ff',
-                            border: '1px solid rgba(88,166,255,0.3)',
-                            '& .MuiChip-label': { px: 0.75 },
-                          }}
-                        />
-                      )}
-                    </Box>
-                    <Typography variant="caption" sx={{ color: '#8b949e', mt: 0.3, whiteSpace: 'nowrap' }}>
-                      {exp.period}
-                    </Typography>
-                  </Box>
+function ExperiencePage() {
+  const { ref: headingRef, inView: headingInView } = useInView();
 
-                  <Box sx={{ display: 'flex', gap: 1, mb: 2, flexWrap: 'wrap' }}>
-                    <Typography
-                      variant="subtitle2"
-                      sx={{ color: exp.type === 'education' ? '#3fb950' : '#58a6ff' }}
-                    >
-                      {exp.company}
-                    </Typography>
-                    <Typography variant="subtitle2" sx={{ color: '#30363d' }}>·</Typography>
-                    <Typography variant="subtitle2" sx={{ color: '#8b949e' }}>
-                      {exp.location}
-                    </Typography>
-                  </Box>
+  return (
+    <Box
+      id="experience"
+      component="section"
+      sx={{
+        maxWidth: 760,
+        mx: 'auto',
+        px: { xs: 3, sm: 5 },
+        py: { xs: 10, sm: 14 },
+      }}
+    >
+      <Box
+        sx={{
+          height: '1px',
+          background: 'linear-gradient(to right, transparent, #1e1e1e 30%, #1e1e1e 70%, transparent)',
+          mb: 10,
+        }}
+      />
 
-                  <Typography
-                    variant="body2"
-                    sx={{ color: '#8b949e', lineHeight: 1.7, mb: 2.5 }}
-                  >
-                    {exp.description}
-                  </Typography>
+      <Box
+        ref={headingRef}
+        sx={{
+          mb: 7,
+          opacity: headingInView ? 1 : 0,
+          transform: headingInView ? 'translateY(0)' : 'translateY(20px)',
+          transition: 'opacity 0.5s ease, transform 0.5s ease',
+        }}
+      >
+        <Typography
+          variant="overline"
+          sx={{ color: '#444', letterSpacing: 2, fontSize: '0.68rem', display: 'block', mb: 1 }}
+        >
+          Career
+        </Typography>
+        <Typography
+          variant="h4"
+          sx={{ color: '#f0f0f0', fontWeight: 700, letterSpacing: '-0.5px', fontSize: { xs: '1.6rem', sm: '2rem' } }}
+        >
+          Experience
+        </Typography>
+      </Box>
 
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.75 }}>
-                    {exp.tags.map((tag) => (
-                      <Chip
-                        key={tag}
-                        label={tag}
-                        size="small"
-                        sx={{
-                          bgcolor: '#21262d',
-                          color: '#8b949e',
-                          border: '1px solid #30363d',
-                          fontSize: '0.7rem',
-                        }}
-                      />
-                    ))}
-                  </Box>
-                </CardContent>
-              </Card>
-            </Box>
-          ))}
-        </Box>
+      <Box>
+        {experiences.map((exp, i) => (
+          <ExperienceCard key={i} exp={exp} index={i} />
+        ))}
       </Box>
     </Box>
   );

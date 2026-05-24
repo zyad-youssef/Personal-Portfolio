@@ -1,181 +1,170 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
+import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
+import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
-import MenuIcon from '@mui/icons-material/Menu';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import PersonIcon from '@mui/icons-material/Person';
-import WorkIcon from '@mui/icons-material/Work';
-import CodeIcon from '@mui/icons-material/Code';
-import { Link, useLocation } from 'react-router-dom';
-import { drawerWidth } from '../App';
-import githubSVG from './github.svg';
-import linkedinSVG from './linkedin.svg';
 
-const navItems = [
-  { label: 'About', path: '/About', icon: <PersonIcon fontSize="small" /> },
-  { label: 'Experience', path: '/Experience', icon: <WorkIcon fontSize="small" /> },
-  { label: 'Projects', path: '/Projects', icon: <CodeIcon fontSize="small" /> },
+const sections = [
+  { label: 'About', id: 'about' },
+  { label: 'Experience', id: 'experience' },
+  { label: 'Projects', id: 'projects' },
 ];
 
-interface Props {
-  window?: () => Window;
+function scrollToSection(id: string) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 }
 
-export default function Navbar(props: Props) {
-  const { window } = props;
+export default function Navbar() {
+  const [active, setActive] = React.useState('about');
+  const [scrolled, setScrolled] = React.useState(false);
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const location = useLocation();
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
+  React.useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 30);
 
-  const isActive = (path: string) =>
-    location.pathname === path || (path === '/About' && location.pathname === '/');
+      let current = 'about';
+      for (const { id } of sections) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= 120) {
+          current = id;
+        }
+      }
+      setActive(current);
+    };
 
-  const drawer = (
-    <Box sx={{ height: '100%', bgcolor: '#0d1117', display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ px: 2.5, py: 3 }}>
-        <Typography variant="h6" sx={{ color: '#e6edf3', fontWeight: 700, letterSpacing: '-0.3px' }}>
-          Zyad Youssef
-        </Typography>
-        <Typography variant="caption" sx={{ color: '#58a6ff' }}>
-          Software Engineer
-        </Typography>
-      </Box>
-      <Divider sx={{ borderColor: '#30363d' }} />
-      <List sx={{ mt: 1, px: 1 }}>
-        {navItems.map(({ label, path, icon }) => {
-          const active = isActive(path);
-          return (
-            <ListItem key={label} disablePadding sx={{ mb: 0.5 }}>
-              <ListItemButton
-                component={Link}
-                to={path}
-                onClick={() => setMobileOpen(false)}
-                sx={{
-                  borderRadius: 1,
-                  color: active ? '#58a6ff' : '#8b949e',
-                  bgcolor: active ? 'rgba(88,166,255,0.1)' : 'transparent',
-                  gap: 1.5,
-                  '&:hover': {
-                    bgcolor: 'rgba(88,166,255,0.07)',
-                    color: '#e6edf3',
-                  },
-                }}
-              >
-                {icon}
-                <ListItemText
-                  primary={label}
-                  primaryTypographyProps={{
-                    fontSize: '0.9rem',
-                    fontWeight: active ? 600 : 400,
-                  }}
-                />
-              </ListItemButton>
-            </ListItem>
-          );
-        })}
-      </List>
-
-      {/* Spacer */}
-      <Box sx={{ flexGrow: 1 }} />
-
-      <Divider sx={{ borderColor: '#21262d' }} />
-      <Box sx={{ px: 2, py: 2, display: 'flex', gap: 0.5 }}>
-        <IconButton
-          component="a"
-          href="https://github.com/zyad-youssef"
-          target="_blank"
-          rel="noreferrer"
-          size="small"
-          sx={{ p: 0.75, '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' } }}
-        >
-          <img
-            src={githubSVG}
-            alt="GitHub"
-            style={{ width: 18, height: 18, filter: 'brightness(0) invert(0.5)' }}
-          />
-        </IconButton>
-        <IconButton
-          component="a"
-          href="https://www.linkedin.com/in/zyad-youssef/"
-          target="_blank"
-          rel="noreferrer"
-          size="small"
-          sx={{ p: 0.75, '&:hover': { bgcolor: 'rgba(255,255,255,0.05)' } }}
-        >
-          <img src={linkedinSVG} alt="LinkedIn" style={{ width: 18, height: 18, opacity: 0.5 }} />
-        </IconButton>
-      </Box>
-    </Box>
-  );
-
-  const container = window !== undefined ? () => window().document.body : undefined;
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
     <>
-      <AppBar
-        position="fixed"
+      <Box
+        component="nav"
         sx={{
-          display: { sm: 'none' },
-          bgcolor: '#0d1117',
-          borderBottom: '1px solid #30363d',
-          boxShadow: 'none',
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 50,
+          px: { xs: 3, sm: 6, md: 10 },
+          py: 2.5,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          bgcolor: scrolled ? 'rgba(5,5,5,0.88)' : 'transparent',
+          backdropFilter: scrolled ? 'blur(14px)' : 'none',
+          borderBottom: `1px solid ${scrolled ? '#1c1c1c' : 'transparent'}`,
+          transition: 'background-color 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease',
         }}
       >
-        <Toolbar variant="dense">
-          <IconButton color="inherit" edge="start" onClick={handleDrawerToggle} sx={{ mr: 1 }}>
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" sx={{ fontWeight: 700 }}>
-            Zyad Youssef
-          </Typography>
-        </Toolbar>
-      </AppBar>
-      <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{ keepMounted: true }}
+        <Typography
+          variant="h6"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
-              width: drawerWidth,
-              bgcolor: '#0d1117',
-              borderRight: '1px solid #30363d',
-            },
+            color: '#f0f0f0',
+            fontWeight: 700,
+            letterSpacing: '-0.5px',
+            cursor: 'pointer',
+            fontSize: '1.1rem',
+            userSelect: 'none',
           }}
         >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
+          ZY
+        </Typography>
+
+        {/* Desktop nav links */}
+        <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 0.5, alignItems: 'center' }}>
+          {sections.map(({ label, id }) => {
+            const isActive = active === id;
+            return (
+              <Box
+                key={id}
+                component="button"
+                onClick={() => scrollToSection(id)}
+                sx={{
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  px: 2.5,
+                  py: 1,
+                  borderRadius: 1.5,
+                  color: isActive ? '#f0f0f0' : '#666',
+                  fontSize: '0.875rem',
+                  fontWeight: isActive ? 600 : 400,
+                  letterSpacing: '0.01em',
+                  transition: 'color 0.2s ease, background-color 0.2s ease',
+                  fontFamily: 'inherit',
+                  '&:hover': {
+                    color: '#c0c0c0',
+                    bgcolor: 'rgba(255,255,255,0.04)',
+                  },
+                }}
+              >
+                {label}
+              </Box>
+            );
+          })}
+        </Box>
+
+        {/* Mobile menu button */}
+        <IconButton
+          onClick={() => setMobileOpen(true)}
           sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': {
-              boxSizing: 'border-box',
-              width: drawerWidth,
-              bgcolor: '#0d1117',
-              borderRight: '1px solid #30363d',
-            },
+            display: { xs: 'flex', sm: 'none' },
+            color: '#f0f0f0',
+            p: 1,
           }}
-          open
         >
-          {drawer}
-        </Drawer>
+          <MenuIcon />
+        </IconButton>
       </Box>
+
+      {/* Mobile drawer */}
+      <Drawer
+        anchor="right"
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        PaperProps={{
+          sx: {
+            width: 220,
+            bgcolor: '#0a0a0a',
+            borderLeft: '1px solid #1c1c1c',
+          },
+        }}
+      >
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end', p: 2 }}>
+          <IconButton onClick={() => setMobileOpen(false)} sx={{ color: '#888' }}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+        <List sx={{ px: 1 }}>
+          {sections.map(({ label, id }) => (
+            <ListItem key={id} disablePadding>
+              <ListItemButton
+                onClick={() => { scrollToSection(id); setMobileOpen(false); }}
+                sx={{
+                  borderRadius: 1.5,
+                  mb: 0.5,
+                  color: active === id ? '#f0f0f0' : '#666',
+                  '&:hover': { bgcolor: 'rgba(255,255,255,0.04)', color: '#c0c0c0' },
+                }}
+              >
+                <ListItemText
+                  primary={label}
+                  primaryTypographyProps={{ fontWeight: active === id ? 600 : 400 }}
+                />
+              </ListItemButton>
+            </ListItem>
+          ))}
+        </List>
+      </Drawer>
     </>
   );
 }

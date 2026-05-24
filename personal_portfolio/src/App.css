@@ -1,3 +1,39 @@
 * {
   box-sizing: border-box;
 }
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+.hero-animate-1 {
+  animation: heroFadeUp 0.7s ease 0.1s both;
+}
+.hero-animate-2 {
+  animation: heroFadeUp 0.7s ease 0.25s both;
+}
+.hero-animate-3 {
+  animation: heroFadeUp 0.7s ease 0.4s both;
+}
+.hero-animate-4 {
+  animation: heroFadeUp 0.7s ease 0.55s both;
+}
+.hero-animate-5 {
+  animation: heroFadeUp 0.7s ease 0.7s both;
+}
+
+.scroll-indicator {
+  animation: heroPulse 2s ease-in-out infinite;
+}
